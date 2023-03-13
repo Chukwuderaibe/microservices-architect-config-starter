@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "react-ui"
+  name: "offers"
   namespace: default
   labels:
-    app: "react-ui"
+    app: "offers"
 spec:
   selector:
     matchLabels:
-      app: "react-ui"
-  replicas: 1
+      app: "offers"
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app: "react-ui"
+        app: "offers"
     spec:
       containers:
-      - name: "react-ui"
-        image: chukwuderaibe/ui
+      - name: "offers"
+        image: chukwuderaibe/offers
         resources:
           requests:
             cpu: 100m
@@ -31,22 +31,22 @@ spec:
             cpu: 100m
             memory: 100Mi
         ports:
-        - containerPort: 8080
-          name: "react-ui"
+        - containerPort: 1001
+          name: "offers"
 
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "react-ui"
+  name: "offers"
   namespace: default
 spec:
   selector:
-    app: "react-ui"
-  type: NodePort
+    app: "offers"
+  type: ClusterIP
   ports:
-  - name: "react-ui"
+  - name: "offers"
     protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 1001
+    targetPort: 1001
